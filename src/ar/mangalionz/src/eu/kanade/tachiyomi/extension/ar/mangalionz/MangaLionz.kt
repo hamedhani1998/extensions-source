@@ -1,5 +1,6 @@
 package eu.kanade.tachiyomi.extension.ar.mangalionz
 
+import eu.kanade.tachiyomi.extension.interceptor.CloudflareInterceptor
 import eu.kanade.tachiyomi.multisrc.madara.Madara
 import eu.kanade.tachiyomi.network.POST
 import eu.kanade.tachiyomi.source.model.FilterList
@@ -21,6 +22,10 @@ abstract class MangaLionz : Madara() {
     override val useLoadMoreRequest = LoadMoreStrategy.Always
 
     override val chapterUrlSuffix = ""
+
+    override val client = network.client.newBuilder()
+        .addInterceptor(CloudflareInterceptor())
+        .build()
 
     override fun searchMangaRequest(
         page: Int,

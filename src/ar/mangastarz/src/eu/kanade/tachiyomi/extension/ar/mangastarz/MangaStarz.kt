@@ -1,5 +1,6 @@
 package eu.kanade.tachiyomi.extension.ar.mangastarz
 
+import eu.kanade.tachiyomi.extension.interceptor.CloudflareInterceptor
 import eu.kanade.tachiyomi.multisrc.madara.Madara
 import keiyoushi.annotation.Source
 import java.text.SimpleDateFormat
@@ -11,4 +12,8 @@ abstract class MangaStarz : Madara() {
     override val chapterUrlSuffix = ""
     override val useLoadMoreRequest = LoadMoreStrategy.Never
     override val useNewChapterEndpoint = false
+
+    override val client = network.client.newBuilder()
+        .addInterceptor(CloudflareInterceptor())
+        .build()
 }
